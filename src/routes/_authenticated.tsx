@@ -7,19 +7,22 @@ import {
 	useRouter,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useUserStore } from "../stores/userStore";
 
 export const Route = createFileRoute("/_authenticated")({
 	component: AuthenticatedLayout,
 });
 
 function AuthenticatedLayout() {
-	const { instance, inProgress, accounts } = useMsal();
+	const { inProgress } = useMsal();
 	const isAuthenticated = useIsAuthenticated();
 	const router = useRouter();
+	const { logout } = useAuth();
+	const user = useUserStore((s) => s.user);
 
 	useEffect(() => {
 		if (!isAuthenticated && inProgress === InteractionStatus.None) {
-			// Redirect to login page instead of MSAL redirect
 			router.navigate({ to: "/login" });
 		}
 	}, [isAuthenticated, inProgress, router]);
@@ -37,16 +40,6 @@ function AuthenticatedLayout() {
 	if (!isAuthenticated) {
 		return null;
 	}
-
-	const handleLogout = async () => {
-		try {
-			await instance.logoutRedirect({
-				postLogoutRedirectUri: "/login",
-			});
-		} catch (error) {
-			console.error("Logout failed:", error);
-		}
-	};
 
 	return (
 		<>
@@ -68,12 +61,12 @@ function AuthenticatedLayout() {
 				</div>
 
 				<div className="flex items-center gap-4">
-					{accounts[0]?.name && (
-						<span className="text-white text-sm">{accounts[0].name}</span>
+					{user?.name && (
+						<span className="text-white text-sm">{user.name}</span>
 					)}
 					<button
 						type="button"
-						onClick={handleLogout}
+						onClick={logout}
 						className="text-white hover:text-ibis-yellow transition-colors"
 					>
 						Abmelden

@@ -13,25 +13,32 @@ class ApiClient {
 
 	private async request<T>(
 		endpoint: string,
-		options?: RequestInit,
+		options?: RequestInit & { token?: string },
 	): Promise<T> {
 		const url = `${this.baseUrl}${endpoint}`;
+		const { token, ...fetchOptions } = options ?? {};
 
 		if (this.debug) {
-			console.log(`[API] ${options?.method || "GET"} ${url}`);
+			console.log(`[API] ${fetchOptions?.method || "GET"} ${url}`);
 		}
 
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
+		const headers: Record<string, string> = {
+			"Content-Type": "application/json",
+			...(fetchOptions?.headers as Record<string, string>),
+		};
+
+		if (token) {
+			headers.Authorization = `Bearer ${token}`;
+		}
+
 		try {
 			const response = await fetch(url, {
-				...options,
+				...fetchOptions,
 				signal: controller.signal,
-				headers: {
-					"Content-Type": "application/json",
-					...options?.headers,
-				},
+				headers,
 			});
 
 			if (!response.ok) {
@@ -50,26 +57,28 @@ class ApiClient {
 		}
 	}
 
-	async get<T>(endpoint: string): Promise<T> {
-		return this.request<T>(endpoint, { method: "GET" });
+	async get<T>(endpoint: string, token?: string): Promise<T> {
+		return this.request<T>(endpoint, { method: "GET", token });
 	}
 
-	async post<T>(endpoint: string, data: unknown): Promise<T> {
+	async post<T>(endpoint: string, data: unknown, token?: string): Promise<T> {
 		return this.request<T>(endpoint, {
 			method: "POST",
 			body: JSON.stringify(data),
+			token,
 		});
 	}
 
-	async put<T>(endpoint: string, data: unknown): Promise<T> {
+	async put<T>(endpoint: string, data: unknown, token?: string): Promise<T> {
 		return this.request<T>(endpoint, {
 			method: "PUT",
 			body: JSON.stringify(data),
+			token,
 		});
 	}
 
-	async delete<T>(endpoint: string): Promise<T> {
-		return this.request<T>(endpoint, { method: "DELETE" });
+	async delete<T>(endpoint: string, token?: string): Promise<T> {
+		return this.request<T>(endpoint, { method: "DELETE", token });
 	}
 }
 

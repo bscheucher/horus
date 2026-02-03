@@ -1,7 +1,10 @@
+import { InteractionStatus } from "@azure/msal-browser";
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { loginRequest } from "../config/authConfig";
+import { useAuth } from "../hooks/useAuth";
+import { useUserStore } from "../stores/userStore";
 
 export const Route = createFileRoute("/login")({
 	component: LoginPage,
@@ -9,28 +12,66 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
 	const navigate = useNavigate();
-	const { instance } = useMsal();
+	const { instance, inProgress } = useMsal();
 	const isAuthenticated = useIsAuthenticated();
+	const { fetchAndStoreUser } = useAuth();
+	const user = useUserStore((s) => s.user);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+	const hasHandledRedirect = useRef(false);
 
-	// Redirect to dashboard if already authenticated
+	// After MSAL redirect completes and user is authenticated,
+	// fetch user data from backend and redirect to dashboard
 	useEffect(() => {
-		if (isAuthenticated) {
-			navigate({ to: "/dashboard" });
+		if (
+			isAuthenticated &&
+			inProgress === InteractionStatus.None &&
+			!hasHandledRedirect.current
+		) {
+			hasHandledRedirect.current = true;
+
+			// If user data is already in the store (restored from cookie), go straight to dashboard
+			if (user) {
+				navigate({ to: "/dashboard" });
+				return;
+			}
+
+			// Otherwise fetch user data from backend
+			setLoading(true);
+			fetchAndStoreUser()
+				.then(() => {
+					navigate({ to: "/dashboard" });
+				})
+				.catch((err) => {
+					console.error("Post-login user fetch failed:", err);
+					setError(
+						"Benutzerdaten konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+					);
+					setLoading(false);
+				});
 		}
-	}, [isAuthenticated, navigate]);
+	}, [isAuthenticated, inProgress, user, fetchAndStoreUser, navigate]);
 
 	const handleLogin = async () => {
 		setLoading(true);
+		setError(null);
 		try {
 			await instance.loginRedirect(loginRequest);
-			// After redirect, user will return to the origin (localhost:3000)
-			// Then navigate to dashboard
-		} catch (error) {
-			console.error("Login failed:", error);
+		} catch (err) {
+			console.error("Login failed:", err);
+			setError("Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.");
 			setLoading(false);
 		}
 	};
+
+	// Show loading while MSAL processes the redirect
+	if (inProgress !== InteractionStatus.None) {
+		return (
+			<div className="flex min-h-screen items-center justify-center bg-white">
+				<div className="text-lg text-gray-600">Authentifizierung läuft...</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="flex min-h-[calc(100vh-48px)] flex-1 flex-col justify-center bg-white py-12 sm:px-6 lg:px-8">
@@ -53,6 +94,12 @@ function LoginPage() {
 							className="h-auto w-full"
 						/>
 					</div>
+
+					{error && (
+						<div className="mb-4 w-full rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+							{error}
+						</div>
+					)}
 
 					<button
 						type="button"

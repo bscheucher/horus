@@ -7,6 +7,7 @@ interface EnvConfig {
 	// API Configuration
 	apiBaseUrl: string;
 	apiTimeout: number;
+	apiDebug: boolean;
 
 	// Environment info (from Rsbuild built-ins)
 	isDev: boolean;
@@ -31,6 +32,7 @@ function getEnvConfig(): EnvConfig {
 	const config: EnvConfig = {
 		apiBaseUrl,
 		apiTimeout: apiTimeout ? Number(apiTimeout) : 30000,
+		apiDebug: import.meta.env.PUBLIC_API_DEBUG === "true",
 		isDev: import.meta.env.DEV,
 		isProd: import.meta.env.PROD,
 		mode: import.meta.env.MODE,

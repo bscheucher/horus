@@ -3,17 +3,51 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { PublicClientApplication } from "@azure/msal-browser";
+import {
+	type AuthenticationResult,
+	EventType,
+	PublicClientApplication,
+} from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { msalConfig } from "./config/authConfig";
 import { routeTree } from "./routeTree.gen";
+import { useUserStore } from "./stores/userStore";
 
 // Create MSAL instance
 const msalInstance = new PublicClientApplication(msalConfig);
 
 // Initialize MSAL
 await msalInstance.initialize();
+
+// Handle redirect response — this processes the token returned by Azure AD
+// after the user completes login on the Microsoft page
+const redirectResponse = await msalInstance.handleRedirectPromise();
+if (redirectResponse) {
+	msalInstance.setActiveAccount(redirectResponse.account);
+}
+
+// If no active account is set, pick the first one from the cache
+if (!msalInstance.getActiveAccount()) {
+	const accounts = msalInstance.getAllAccounts();
+	if (accounts.length > 0) {
+		msalInstance.setActiveAccount(accounts[0]);
+	}
+}
+
+// Listen for login success events to set the active account
+msalInstance.addEventCallback((event) => {
+	if (
+		event.eventType === EventType.LOGIN_SUCCESS &&
+		(event.payload as AuthenticationResult)?.account
+	) {
+		const account = (event.payload as AuthenticationResult).account;
+		msalInstance.setActiveAccount(account);
+	}
+});
+
+// Restore user from cookie on app startup
+useUserStore.getState().restoreFromCookie();
 
 // Create a QueryClient instance
 const queryClient = new QueryClient({
