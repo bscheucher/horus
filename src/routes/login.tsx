@@ -1,7 +1,5 @@
-import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { loginRequest } from "../config/authConfig";
+import { useState } from "react";
 
 export const Route = createFileRoute("/login")({
 	component: LoginPage,
@@ -9,27 +7,12 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
 	const navigate = useNavigate();
-	const { instance } = useMsal();
-	const isAuthenticated = useIsAuthenticated();
 	const [loading, setLoading] = useState(false);
-
-	// Redirect to dashboard if already authenticated
-	useEffect(() => {
-		if (isAuthenticated) {
-			navigate({ to: "/dashboard" });
-		}
-	}, [isAuthenticated, navigate]);
 
 	const handleLogin = async () => {
 		setLoading(true);
-		try {
-			await instance.loginRedirect(loginRequest);
-			// After redirect, user will return to the origin (localhost:3000)
-			// Then navigate to dashboard
-		} catch (error) {
-			console.error("Login failed:", error);
-			setLoading(false);
-		}
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		navigate({ to: "/dashboard" });
 	};
 
 	return (
