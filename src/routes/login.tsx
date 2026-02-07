@@ -9,10 +9,9 @@ function LoginPage() {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 
-	const handleLogin = async () => {
+	const handleLogin = () => {
 		setLoading(true);
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		navigate({ to: "/dashboard" });
+		navigate({ to: "/azure-login" });
 	};
 
 	return (
