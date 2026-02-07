@@ -1,11 +1,30 @@
 // src/routes/_authenticated.tsx
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Link,
+	Outlet,
+	redirect,
+	useNavigate,
+} from "@tanstack/react-router";
+import { isAuthenticated, setAuthenticated } from "../lib/auth";
 
 export const Route = createFileRoute("/_authenticated")({
+	beforeLoad: () => {
+		if (!isAuthenticated()) {
+			throw redirect({ to: "/login" });
+		}
+	},
 	component: AuthenticatedLayout,
 });
 
 function AuthenticatedLayout() {
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		setAuthenticated(false);
+		navigate({ to: "/login" });
+	};
+
 	return (
 		<>
 			{/* Navigation for authenticated pages */}
@@ -22,12 +41,13 @@ function AuthenticatedLayout() {
 				>
 					Dashboard
 				</Link>
-				<Link
-					to="/login"
-					className="text-white hover:text-ibis-yellow [&.active]:font-bold [&.active]:text-ibis-yellow"
+				<button
+					type="button"
+					onClick={handleLogout}
+					className="text-white hover:text-ibis-yellow"
 				>
 					Logout
-				</Link>
+				</button>
 			</nav>
 
 			{/* Child routes render here */}

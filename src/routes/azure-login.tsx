@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { setAuthenticated } from "../lib/auth";
 
 export const Route = createFileRoute("/azure-login")({
 	component: AzureLoginPage,
@@ -56,6 +57,7 @@ function AzureLoginPage() {
 		setPasswordError("");
 		setLoading(true);
 		await new Promise((resolve) => setTimeout(resolve, 1500));
+		setAuthenticated(true);
 		navigate({ to: "/dashboard" });
 	};
 
