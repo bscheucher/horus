@@ -71,6 +71,39 @@ class ApiClient {
 	async delete<T>(endpoint: string): Promise<T> {
 		return this.request<T>(endpoint, { method: "DELETE" });
 	}
+
+	async postFormData<T>(endpoint: string, formData: FormData): Promise<T> {
+		const url = `${this.baseUrl}${endpoint}`;
+
+		if (this.debug) {
+			console.log(`[API] POST (FormData) ${url}`);
+		}
+
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
+		try {
+			const response = await fetch(url, {
+				method: "POST",
+				body: formData,
+				signal: controller.signal,
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+
+			if (this.debug) {
+				console.log(`[API] Response:`, data);
+			}
+
+			return data;
+		} finally {
+			clearTimeout(timeoutId);
+		}
+	}
 }
 
 export const apiClient = new ApiClient();
