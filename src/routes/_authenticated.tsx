@@ -65,7 +65,7 @@ function AuthenticatedLayout() {
 				</div>
 			</header>
 			{/* Child routes render here */}
-			<div className="bg-white">
+			<div className="bg-base-200 min-h-screen">
 				<Outlet />
 			</div>
 		</>
