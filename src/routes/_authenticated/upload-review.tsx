@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { apiClient } from "../../lib/api-client";
 
 type UploadReviewSearch = {
 	start: string;
@@ -20,15 +21,36 @@ function UploadReviewPage() {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editStart, setEditStart] = useState(start);
 	const [editEnd, setEditEnd] = useState(end);
+	const [isConfirming, setIsConfirming] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
-	const handleConfirm = () => {
-		navigate({
-			to: "/upload-confirmation",
-			search: {
-				start: isEditing ? editStart : start,
-				end: isEditing ? editEnd : end,
-			},
-		});
+	const handleConfirm = async () => {
+		setIsConfirming(true);
+		setError(null);
+
+		const confirmedStart = isEditing ? editStart : start;
+		const confirmedEnd = isEditing ? editEnd : end;
+
+		try {
+			const response = await apiClient.post<{ start: string; end: string }>(
+				"/tn-document/confirm",
+				{ start: confirmedStart, end: confirmedEnd },
+			);
+
+			navigate({
+				to: "/upload-confirmation",
+				search: {
+					start: response.start,
+					end: response.end,
+				},
+			});
+		} catch (err) {
+			setError(
+				err instanceof Error ? err.message : "Confirmation failed. Please try again.",
+			);
+		} finally {
+			setIsConfirming(false);
+		}
 	};
 
 	return (
@@ -36,6 +58,12 @@ function UploadReviewPage() {
 			<div className="card bg-base-100 shadow-xl">
 				<div className="card-body">
 					<h2 className="card-title text-2xl mb-4">Review Upload Data</h2>
+
+					{error && (
+						<div className="alert alert-error mb-4">
+							<span>{error}</span>
+						</div>
+					)}
 
 					<p className="text-base-content/70 mb-6">
 						Please review the data returned by the server. If everything is
@@ -86,9 +114,10 @@ function UploadReviewPage() {
 								<button
 									type="button"
 									className="btn btn-success flex-1"
+									disabled={isConfirming}
 									onClick={handleConfirm}
 								>
-									Confirm
+									{isConfirming ? "Confirming..." : "Confirm"}
 								</button>
 							</>
 						) : (
@@ -96,6 +125,7 @@ function UploadReviewPage() {
 								<button
 									type="button"
 									className="btn btn-outline flex-1"
+									disabled={isConfirming}
 									onClick={() => {
 										setIsEditing(false);
 										setEditStart(start);
@@ -107,9 +137,10 @@ function UploadReviewPage() {
 								<button
 									type="button"
 									className="btn btn-success flex-1"
+									disabled={isConfirming}
 									onClick={handleConfirm}
 								>
-									Confirm Changes
+									{isConfirming ? "Confirming..." : "Confirm Changes"}
 								</button>
 							</>
 						)}
