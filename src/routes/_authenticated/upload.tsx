@@ -14,8 +14,6 @@ function UploadPage() {
 	const [file, setFile] = useState<File | null>(null);
 	const [isDragging, setIsDragging] = useState(false);
 	const [type, setType] = useState("");
-	const [identifier, setIdentifier] = useState("");
-	const [additionalIdentifier, setAdditionalIdentifier] = useState("");
 	const [isUploading, setIsUploading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -69,19 +67,18 @@ function UploadPage() {
 	};
 
 	const handleUpload = async () => {
-		if (!file || !type || !identifier) return;
+		if (!file || !type) return;
 
 		setIsUploading(true);
 		setError(null);
+
+		const identifier = `${type}-${Date.now()}`;
 
 		try {
 			const formData = new FormData();
 			formData.append("file", file);
 			formData.append("type", type);
 			formData.append("identifier", identifier);
-			if (additionalIdentifier) {
-				formData.append("additionalIdentifier", additionalIdentifier);
-			}
 
 			const response = await apiClient.postFormData<{
 				start: string;
@@ -104,7 +101,7 @@ function UploadPage() {
 		}
 	};
 
-	const canUpload = file && type && identifier && !isUploading;
+	const canUpload = file && type && !isUploading;
 
 	return (
 		<div className="container mx-auto p-8 max-w-2xl">
@@ -224,45 +221,21 @@ function UploadPage() {
 					<div className="divider" />
 
 					<div className="form-control w-full">
-						<label className="label" htmlFor="type-input">
+						<label className="label" htmlFor="type-select">
 							<span className="label-text">Type *</span>
 						</label>
-						<input
-							id="type-input"
-							type="text"
-							placeholder="Document type"
-							className="input input-bordered w-full"
+						<select
+							id="type-select"
+							className="select select-bordered w-full"
 							value={type}
 							onChange={(e) => setType(e.target.value)}
-						/>
-					</div>
-
-					<div className="form-control w-full mt-2">
-						<label className="label" htmlFor="identifier-input">
-							<span className="label-text">Identifier *</span>
-						</label>
-						<input
-							id="identifier-input"
-							type="text"
-							placeholder="Identifier"
-							className="input input-bordered w-full"
-							value={identifier}
-							onChange={(e) => setIdentifier(e.target.value)}
-						/>
-					</div>
-
-					<div className="form-control w-full mt-2">
-						<label className="label" htmlFor="additional-identifier-input">
-							<span className="label-text">Additional Identifier</span>
-						</label>
-						<input
-							id="additional-identifier-input"
-							type="text"
-							placeholder="Additional identifier (optional)"
-							className="input input-bordered w-full"
-							value={additionalIdentifier}
-							onChange={(e) => setAdditionalIdentifier(e.target.value)}
-						/>
+						>
+							<option value="" disabled>
+								Select document type
+							</option>
+							<option value="krankmeldung">Krankmeldung</option>
+							<option value="zeitbestätigung">Zeitbestätigung</option>
+						</select>
 					</div>
 
 					{/* Upload Button */}
