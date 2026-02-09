@@ -1,0 +1,121 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+
+type UploadReviewSearch = {
+	start: string;
+	end: string;
+};
+
+export const Route = createFileRoute("/_authenticated/upload-review")({
+	validateSearch: (search: Record<string, unknown>): UploadReviewSearch => ({
+		start: String(search.start ?? ""),
+		end: String(search.end ?? ""),
+	}),
+	component: UploadReviewPage,
+});
+
+function UploadReviewPage() {
+	const { start, end } = Route.useSearch();
+	const navigate = useNavigate();
+	const [isEditing, setIsEditing] = useState(false);
+	const [editStart, setEditStart] = useState(start);
+	const [editEnd, setEditEnd] = useState(end);
+
+	const handleConfirm = () => {
+		navigate({
+			to: "/upload-confirmation",
+			search: {
+				start: isEditing ? editStart : start,
+				end: isEditing ? editEnd : end,
+			},
+		});
+	};
+
+	return (
+		<div className="container mx-auto p-8 max-w-2xl">
+			<div className="card bg-base-100 shadow-xl">
+				<div className="card-body">
+					<h2 className="card-title text-2xl mb-4">Review Upload Data</h2>
+
+					<p className="text-base-content/70 mb-6">
+						Please review the data returned by the server. If everything is
+						correct, confirm below. Otherwise, click "Edit" to correct the
+						values.
+					</p>
+
+					<div className="bg-base-200 rounded-lg p-6 space-y-4">
+						<div className="flex justify-between items-center">
+							<span className="font-medium">Start Date</span>
+							{isEditing ? (
+								<input
+									type="date"
+									className="input input-bordered input-sm"
+									value={editStart}
+									onChange={(e) => setEditStart(e.target.value)}
+								/>
+							) : (
+								<span className="text-lg">{start}</span>
+							)}
+						</div>
+						<div className="divider my-0" />
+						<div className="flex justify-between items-center">
+							<span className="font-medium">End Date</span>
+							{isEditing ? (
+								<input
+									type="date"
+									className="input input-bordered input-sm"
+									value={editEnd}
+									onChange={(e) => setEditEnd(e.target.value)}
+								/>
+							) : (
+								<span className="text-lg">{end}</span>
+							)}
+						</div>
+					</div>
+
+					<div className="flex gap-4 mt-6">
+						{!isEditing ? (
+							<>
+								<button
+									type="button"
+									className="btn btn-outline flex-1"
+									onClick={() => setIsEditing(true)}
+								>
+									Edit
+								</button>
+								<button
+									type="button"
+									className="btn btn-success flex-1"
+									onClick={handleConfirm}
+								>
+									Confirm
+								</button>
+							</>
+						) : (
+							<>
+								<button
+									type="button"
+									className="btn btn-outline flex-1"
+									onClick={() => {
+										setIsEditing(false);
+										setEditStart(start);
+										setEditEnd(end);
+									}}
+								>
+									Cancel
+								</button>
+								<button
+									type="button"
+									className="btn btn-success flex-1"
+									onClick={handleConfirm}
+								>
+									Confirm Changes
+								</button>
+							</>
+						)}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}

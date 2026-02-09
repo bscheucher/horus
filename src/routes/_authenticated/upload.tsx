@@ -86,7 +86,7 @@ function UploadPage() {
 			}>("/tn-document/upload", formData);
 
 			navigate({
-				to: "/upload-confirmation",
+				to: "/upload-review",
 				search: {
 					start: response.start,
 					end: response.end,
