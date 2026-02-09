@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { z } from "zod/v4";
 
-const uploadConfirmationSearchSchema = z.object({
-	start: z.string(),
-	end: z.string(),
-});
+type UploadConfirmationSearch = {
+	start: string;
+	end: string;
+};
 
 export const Route = createFileRoute("/_authenticated/upload-confirmation")({
-	validateSearch: uploadConfirmationSearchSchema,
+	validateSearch: (search: Record<string, unknown>): UploadConfirmationSearch => ({
+		start: String(search.start ?? ""),
+		end: String(search.end ?? ""),
+	}),
 	component: UploadConfirmationPage,
 });
 
