@@ -81,15 +81,23 @@ function UploadPage() {
 			formData.append("identifier", identifier);
 
 			const response = await apiClient.postFormData<{
-				start: string;
-				end: string;
+				processing_id: string;
+				workflow_id: string;
+				extractions: {
+					first_name: { value: string; confidence: number };
+					last_name: { value: string; confidence: number };
+					start_date: { value: string; confidence: number };
+					end_date: { value: string; confidence: number };
+				};
 			}>("/tn-document/upload", formData);
 
 			navigate({
 				to: "/upload-review",
 				search: {
-					start: response.start,
-					end: response.end,
+					start: response.extractions.start_date.value,
+					end: response.extractions.end_date.value,
+					firstName: response.extractions.first_name.value,
+					lastName: response.extractions.last_name.value,
 				},
 			});
 		} catch (err) {

@@ -5,22 +5,28 @@ import { apiClient } from "../../lib/api-client";
 type UploadReviewSearch = {
 	start: string;
 	end: string;
+	firstName: string;
+	lastName: string;
 };
 
 export const Route = createFileRoute("/_authenticated/upload-review")({
 	validateSearch: (search: Record<string, unknown>): UploadReviewSearch => ({
 		start: String(search.start ?? ""),
 		end: String(search.end ?? ""),
+		firstName: String(search.firstName ?? ""),
+		lastName: String(search.lastName ?? ""),
 	}),
 	component: UploadReviewPage,
 });
 
 function UploadReviewPage() {
-	const { start, end } = Route.useSearch();
+	const { start, end, firstName, lastName } = Route.useSearch();
 	const navigate = useNavigate();
 	const [isEditing, setIsEditing] = useState(false);
 	const [editStart, setEditStart] = useState(start);
 	const [editEnd, setEditEnd] = useState(end);
+	const [editFirstName, setEditFirstName] = useState(firstName);
+	const [editLastName, setEditLastName] = useState(lastName);
 	const [isConfirming, setIsConfirming] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -30,18 +36,29 @@ function UploadReviewPage() {
 
 		const confirmedStart = isEditing ? editStart : start;
 		const confirmedEnd = isEditing ? editEnd : end;
+		const confirmedFirstName = isEditing ? editFirstName : firstName;
+		const confirmedLastName = isEditing ? editLastName : lastName;
 
 		try {
-			const response = await apiClient.post<{ start: string; end: string }>(
-				"/tn-document/confirm",
-				{ start: confirmedStart, end: confirmedEnd },
-			);
+			const response = await apiClient.post<{
+				start: string;
+				end: string;
+				firstName: string;
+				lastName: string;
+			}>("/tn-document/confirm", {
+				start: confirmedStart,
+				end: confirmedEnd,
+				firstName: confirmedFirstName,
+				lastName: confirmedLastName,
+			});
 
 			navigate({
 				to: "/upload-confirmation",
 				search: {
 					start: response.start,
 					end: response.end,
+					firstName: response.firstName,
+					lastName: response.lastName,
 				},
 			});
 		} catch (err) {
@@ -75,6 +92,36 @@ function UploadReviewPage() {
 
 					<div className="bg-base-200 rounded-lg p-6 space-y-4">
 						<div className="flex justify-between items-center">
+							<span className="font-medium">First Name</span>
+							{isEditing ? (
+								<input
+									type="text"
+									className="input input-bordered input-sm"
+									value={editFirstName}
+									onChange={(e) => setEditFirstName(e.target.value)}
+								/>
+							) : (
+								<span className="text-lg">{firstName}</span>
+							)}
+						</div>
+						<div className="divider my-0" />
+
+						<div className="flex justify-between items-center">
+							<span className="font-medium">Last Name</span>
+							{isEditing ? (
+								<input
+									type="text"
+									className="input input-bordered input-sm"
+									value={editLastName}
+									onChange={(e) => setEditLastName(e.target.value)}
+								/>
+							) : (
+								<span className="text-lg">{lastName}</span>
+							)}
+						</div>
+						<div className="divider my-0" />
+
+						<div className="flex justify-between items-center">
 							<span className="font-medium">Start Date</span>
 							{isEditing ? (
 								<input
@@ -88,6 +135,7 @@ function UploadReviewPage() {
 							)}
 						</div>
 						<div className="divider my-0" />
+
 						<div className="flex justify-between items-center">
 							<span className="font-medium">End Date</span>
 							{isEditing ? (
@@ -132,6 +180,8 @@ function UploadReviewPage() {
 										setIsEditing(false);
 										setEditStart(start);
 										setEditEnd(end);
+										setEditFirstName(firstName);
+										setEditLastName(lastName);
 									}}
 								>
 									Cancel

@@ -4,6 +4,8 @@ import { z } from "zod/v4";
 const uploadConfirmationSearchSchema = z.object({
 	start: z.string(),
 	end: z.string(),
+	firstName: z.string(),
+	lastName: z.string(),
 });
 
 export const Route = createFileRoute("/_authenticated/upload-confirmation")({
@@ -12,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/upload-confirmation")({
 });
 
 function UploadConfirmationPage() {
-	const { start, end } = Route.useSearch();
+	const { start, end, firstName, lastName } = Route.useSearch();
 
 	return (
 		<div className="container mx-auto p-8 max-w-2xl">
@@ -44,6 +46,16 @@ function UploadConfirmationPage() {
 
 					<div className="bg-base-200 rounded-lg p-6 space-y-4">
 						<div className="flex justify-between items-center">
+							<span className="font-medium">First Name</span>
+							<span className="text-lg">{firstName}</span>
+						</div>
+						<div className="divider my-0" />
+						<div className="flex justify-between items-center">
+							<span className="font-medium">Last Name</span>
+							<span className="text-lg">{lastName}</span>
+						</div>
+						<div className="divider my-0" />
+						<div className="flex justify-between items-center">
 							<span className="font-medium">Start Date</span>
 							<span className="text-lg">{start}</span>
 						</div>
@@ -53,7 +65,6 @@ function UploadConfirmationPage() {
 							<span className="text-lg">{end}</span>
 						</div>
 					</div>
-
 					<div className="card-actions mt-6">
 						<Link to="/upload" className="btn btn-primary w-full">
 							Upload Another File
