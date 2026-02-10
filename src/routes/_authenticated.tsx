@@ -48,7 +48,7 @@ function AuthenticatedLayout() {
 					Logout
 				</button>
 			</nav>
-			<header className="bg-white shadow-sm border-t border-gray-200 mt-auto">
+			<header className="bg-white">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
 					<div className="flex items-center justify-between">
 						<img
@@ -65,9 +65,8 @@ function AuthenticatedLayout() {
 				</div>
 			</header>
 			{/* Child routes render here */}
-			<div className="bg-white">
-				<Outlet />
-			</div>
+
+			<Outlet />
 		</>
 	);
 }
