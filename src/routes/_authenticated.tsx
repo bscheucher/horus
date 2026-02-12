@@ -5,6 +5,7 @@ import {
 	redirect,
 	useNavigate,
 } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { isAuthenticated, setAuthenticated } from "../lib/auth";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -18,6 +19,7 @@ export const Route = createFileRoute("/_authenticated")({
 
 function AuthenticatedLayout() {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const handleLogout = () => {
 		setAuthenticated(false);
@@ -32,20 +34,20 @@ function AuthenticatedLayout() {
 					to="/dashboard"
 					className="text-white hover:text-ibis-yellow [&.active]:font-bold [&.active]:text-ibis-yellow"
 				>
-					Dashboard
+					{t("nav.dashboard")}
 				</Link>
 				<Link
 					to="/upload"
 					className="text-white hover:text-ibis-yellow [&.active]:font-bold [&.active]:text-ibis-yellow"
 				>
-					Upload
+					{t("nav.upload")}
 				</Link>
 				<button
 					type="button"
 					onClick={handleLogout}
 					className="text-white hover:text-ibis-yellow"
 				>
-					Logout
+					{t("nav.logout")}
 				</button>
 			</nav>
 			<header className="bg-white">
@@ -53,12 +55,12 @@ function AuthenticatedLayout() {
 					<div className="flex items-center justify-between">
 						<img
 							src="/aspire-logo.svg"
-							alt="Aspire Logo"
+							alt={t("common.aspireLogoAlt")}
 							className="h-12 w-auto"
 						/>
 						<img
 							src="/ibis-acam-logo.svg"
-							alt="ibis acam Logo"
+							alt={t("common.ibisAcamLogoAlt")}
 							className="h-12 w-auto"
 						/>
 					</div>

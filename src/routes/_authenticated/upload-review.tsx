@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { apiClient } from "../../lib/api-client";
 import { PageContainer } from "../../components/PageContainer";
 
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/_authenticated/upload-review")({
 function UploadReviewPage() {
 	const { start, end, firstName, lastName } = Route.useSearch();
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const [isEditing, setIsEditing] = useState(false);
 	const [editStart, setEditStart] = useState(start);
 	const [editEnd, setEditEnd] = useState(end);
@@ -66,7 +68,7 @@ function UploadReviewPage() {
 			setError(
 				err instanceof Error
 					? err.message
-					: "Confirmation failed. Please try again.",
+					: t("uploadReview.confirmationFailed"),
 			);
 		} finally {
 			setIsConfirming(false);
@@ -77,7 +79,7 @@ function UploadReviewPage() {
 		<PageContainer>
 			<div className="card bg-base-100 shadow-xl border border-gray-200">
 				<div className="card-body">
-					<h2 className="card-title text-2xl mb-4">Review Upload Data</h2>
+					<h2 className="card-title text-2xl mb-4">{t("uploadReview.title")}</h2>
 
 					{error && (
 						<div className="alert alert-error mb-4">
@@ -86,14 +88,12 @@ function UploadReviewPage() {
 					)}
 
 					<p className="text-base-content/70 mb-6">
-						Please review the data returned by the server. If everything is
-						correct, confirm below. Otherwise, click "Edit" to correct the
-						values.
+						{t("uploadReview.instructions")}
 					</p>
 
 					<div className="bg-base-200 rounded-lg p-6 space-y-4">
 						<div className="flex justify-between items-center">
-							<span className="font-medium">First Name</span>
+							<span className="font-medium">{t("common.firstName")}</span>
 							{isEditing ? (
 								<input
 									type="text"
@@ -108,7 +108,7 @@ function UploadReviewPage() {
 						<div className="divider my-0" />
 
 						<div className="flex justify-between items-center">
-							<span className="font-medium">Last Name</span>
+							<span className="font-medium">{t("common.lastName")}</span>
 							{isEditing ? (
 								<input
 									type="text"
@@ -123,7 +123,7 @@ function UploadReviewPage() {
 						<div className="divider my-0" />
 
 						<div className="flex justify-between items-center">
-							<span className="font-medium">Start Date</span>
+							<span className="font-medium">{t("common.startDate")}</span>
 							{isEditing ? (
 								<input
 									type="date"
@@ -138,7 +138,7 @@ function UploadReviewPage() {
 						<div className="divider my-0" />
 
 						<div className="flex justify-between items-center">
-							<span className="font-medium">End Date</span>
+							<span className="font-medium">{t("common.endDate")}</span>
 							{isEditing ? (
 								<input
 									type="date"
@@ -160,7 +160,7 @@ function UploadReviewPage() {
 									className="btn btn-outline flex-1"
 									onClick={() => setIsEditing(true)}
 								>
-									Edit
+									{t("common.edit")}
 								</button>
 								<button
 									type="button"
@@ -168,7 +168,7 @@ function UploadReviewPage() {
 									disabled={isConfirming}
 									onClick={handleConfirm}
 								>
-									{isConfirming ? "Confirming..." : "Confirm"}
+									{isConfirming ? t("common.confirming") : t("common.confirm")}
 								</button>
 							</>
 						) : (
@@ -185,7 +185,7 @@ function UploadReviewPage() {
 										setEditLastName(lastName);
 									}}
 								>
-									Cancel
+									{t("common.cancel")}
 								</button>
 								<button
 									type="button"
@@ -193,7 +193,7 @@ function UploadReviewPage() {
 									disabled={isConfirming}
 									onClick={handleConfirm}
 								>
-									{isConfirming ? "Confirming..." : "Confirm Changes"}
+									{isConfirming ? t("common.confirming") : t("uploadReview.confirmChanges")}
 								</button>
 							</>
 						)}

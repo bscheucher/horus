@@ -1,0 +1,61 @@
+{
+	"common": {
+		"aspireLogoAlt": "Aspire Logo",
+		"ibisAcamLogoAlt": "ibis acam Logo",
+		"firstName": "Vorname",
+		"lastName": "Nachname",
+		"startDate": "Startdatum",
+		"endDate": "Enddatum",
+		"edit": "Bearbeiten",
+		"cancel": "Abbrechen",
+		"confirm": "Bestätigen",
+		"confirming": "Wird bestätigt..."
+	},
+	"login": {
+		"redirecting": "Sie werden weitergeleitet...",
+		"loginWithAzure": "Mit Azure SSO einloggen"
+	},
+	"nav": {
+		"dashboard": "Dashboard",
+		"upload": "Upload",
+		"logout": "Logout"
+	},
+	"home": {
+		"title": "Home",
+		"welcome": "Willkommen im Teilnehmer-Portal!"
+	},
+	"dashboard": {
+		"title": "Teilnehmer-Portal",
+		"subtitle": "Willkommen auf der Baustelle",
+		"description": "Wir arbeiten hart daran, Ihnen ein großartiges Erlebnis zu bieten. Bleiben Sie dran für Updates!"
+	},
+	"upload": {
+		"title": "Datei hochladen",
+		"fileTypesError": "Nur JPG- und PNG-Dateien sind erlaubt.",
+		"uploadFailed": "Upload fehlgeschlagen. Bitte versuchen Sie es erneut.",
+		"dropZoneLabel": "Datei-Ablagezone",
+		"uploadIconTitle": "Upload-Symbol",
+		"successCheckmarkTitle": "Erfolg-Häkchen",
+		"dragAndDrop": "Datei hierher ziehen und ablegen",
+		"fileTypesHint": "Nur JPG- und PNG-Dateien",
+		"chooseFile": "Datei auswählen",
+		"remove": "Entfernen",
+		"selectDocumentType": "Dokumenttyp auswählen",
+		"sickLeave": "Krankmeldung",
+		"timeConfirmation": "Zeitbestätigung",
+		"uploading": "Wird hochgeladen...",
+		"uploadFile": "Datei hochladen"
+	},
+	"uploadReview": {
+		"title": "Upload-Daten überprüfen",
+		"instructions": "Bitte überprüfen Sie die vom Server zurückgegebenen Daten. Wenn alles korrekt ist, bestätigen Sie unten. Andernfalls klicken Sie auf \"Bearbeiten\", um die Werte zu korrigieren.",
+		"confirmationFailed": "Bestätigung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+		"confirmChanges": "Änderungen bestätigen"
+	},
+	"uploadConfirmation": {
+		"successTitle": "Erfolg",
+		"title": "Upload erfolgreich",
+		"message": "Ihr Dokument wurde erfolgreich hochgeladen. Nachfolgend finden Sie die Details Ihrer Einreichung.",
+		"uploadAnother": "Weitere Datei hochladen"
+	}
+}

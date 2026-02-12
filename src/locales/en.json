@@ -1,0 +1,61 @@
+{
+	"common": {
+		"aspireLogoAlt": "Aspire Logo",
+		"ibisAcamLogoAlt": "ibis acam Logo",
+		"firstName": "First Name",
+		"lastName": "Last Name",
+		"startDate": "Start Date",
+		"endDate": "End Date",
+		"edit": "Edit",
+		"cancel": "Cancel",
+		"confirm": "Confirm",
+		"confirming": "Confirming..."
+	},
+	"login": {
+		"redirecting": "You are being redirected...",
+		"loginWithAzure": "Login with Azure SSO"
+	},
+	"nav": {
+		"dashboard": "Dashboard",
+		"upload": "Upload",
+		"logout": "Logout"
+	},
+	"home": {
+		"title": "Home",
+		"welcome": "Welcome to the Teilnehmer-Portal!"
+	},
+	"dashboard": {
+		"title": "Teilnehmer-Portal",
+		"subtitle": "Welcome to the Construction Site",
+		"description": "We're working hard to bring you an amazing experience. Stay tuned for updates!"
+	},
+	"upload": {
+		"title": "Upload File",
+		"fileTypesError": "Only JPG and PNG files are allowed.",
+		"uploadFailed": "Upload failed. Please try again.",
+		"dropZoneLabel": "File drop zone",
+		"uploadIconTitle": "Upload icon",
+		"successCheckmarkTitle": "Success checkmark",
+		"dragAndDrop": "Drag and drop your file here",
+		"fileTypesHint": "JPG and PNG files only",
+		"chooseFile": "Choose File",
+		"remove": "Remove",
+		"selectDocumentType": "Select document type",
+		"sickLeave": "Krankmeldung",
+		"timeConfirmation": "Zeitbestätigung",
+		"uploading": "Uploading...",
+		"uploadFile": "Upload File"
+	},
+	"uploadReview": {
+		"title": "Review Upload Data",
+		"instructions": "Please review the data returned by the server. If everything is correct, confirm below. Otherwise, click \"Edit\" to correct the values.",
+		"confirmationFailed": "Confirmation failed. Please try again.",
+		"confirmChanges": "Confirm Changes"
+	},
+	"uploadConfirmation": {
+		"successTitle": "Success",
+		"title": "Upload Successful",
+		"message": "Your document has been uploaded successfully. Below are the details of your submission.",
+		"uploadAnother": "Upload Another File"
+	}
+}

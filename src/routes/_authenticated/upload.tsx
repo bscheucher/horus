@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { apiClient } from "../../lib/api-client";
 import { PageContainer } from "../../components/PageContainer";
 
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/_authenticated/upload")({
 
 function UploadPage() {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const [file, setFile] = useState<File | null>(null);
 	const [isDragging, setIsDragging] = useState(false);
 	const [type, setType] = useState("");
@@ -24,7 +26,7 @@ function UploadPage() {
 		setError(null);
 		if (selectedFile) {
 			if (!isValidFile(selectedFile)) {
-				setError("Only JPG and PNG files are allowed.");
+				setError(t("upload.fileTypesError"));
 				return;
 			}
 			setFile(selectedFile);
@@ -103,7 +105,7 @@ function UploadPage() {
 			});
 		} catch (err) {
 			setError(
-				err instanceof Error ? err.message : "Upload failed. Please try again.",
+				err instanceof Error ? err.message : t("upload.uploadFailed"),
 			);
 		} finally {
 			setIsUploading(false);
@@ -116,7 +118,7 @@ function UploadPage() {
 		<PageContainer>
 			<div className="card bg-base-100 shadow-xl rounded-2xl border border-gray-200 pb-4">
 				<div className="card-body ">
-					<h2 className="card-title text-2xl mb-4">Upload File</h2>
+					<h2 className="card-title text-2xl mb-4">{t("upload.title")}</h2>
 
 					{error && (
 						<div className="alert alert-error mb-4">
@@ -126,7 +128,7 @@ function UploadPage() {
 
 					{/* Drag and Drop Zone */}
 					<section
-						aria-label="File drop zone"
+						aria-label={t("upload.dropZoneLabel")}
 						className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
 							isDragging
 								? "border-primary bg-primary/10"
@@ -146,7 +148,7 @@ function UploadPage() {
 									viewBox="0 0 48 48"
 									aria-hidden="true"
 								>
-									<title>Upload icon</title>
+									<title>{t("upload.uploadIconTitle")}</title>
 									<path
 										d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
 										strokeWidth={2}
@@ -155,10 +157,10 @@ function UploadPage() {
 									/>
 								</svg>
 								<p className="mt-4 text-lg font-medium">
-									Drag and drop your file here
+									{t("upload.dragAndDrop")}
 								</p>
 								<p className="mt-2 text-sm text-base-content/60">
-									JPG and PNG files only
+									{t("upload.fileTypesHint")}
 								</p>
 							</>
 						) : (
@@ -170,7 +172,7 @@ function UploadPage() {
 									viewBox="0 0 24 24"
 									aria-hidden="true"
 								>
-									<title>Success checkmark</title>
+									<title>{t("upload.successCheckmarkTitle")}</title>
 									<path
 										strokeLinecap="round"
 										strokeLinejoin="round"
@@ -198,7 +200,7 @@ function UploadPage() {
 								viewBox="0 0 24 24"
 								aria-hidden="true"
 							>
-								<title>Upload icon</title>
+								<title>{t("upload.uploadIconTitle")}</title>
 								<path
 									strokeLinecap="round"
 									strokeLinejoin="round"
@@ -206,7 +208,7 @@ function UploadPage() {
 									d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 								/>
 							</svg>
-							Choose File
+							{t("upload.chooseFile")}
 							<input
 								type="file"
 								className="hidden"
@@ -221,7 +223,7 @@ function UploadPage() {
 								className="btn btn-error btn-outline"
 								onClick={handleRemoveFile}
 							>
-								Remove
+								{t("upload.remove")}
 							</button>
 						)}
 					</div>
@@ -236,10 +238,10 @@ function UploadPage() {
 							onChange={(e) => setType(e.target.value)}
 						>
 							<option value="" disabled>
-								Select document type
+								{t("upload.selectDocumentType")}
 							</option>
-							<option value="krankmeldung">Krankmeldung</option>
-							<option value="zeitbestätigung">Zeitbestätigung</option>
+							<option value="krankmeldung">{t("upload.sickLeave")}</option>
+							<option value="zeitbestätigung">{t("upload.timeConfirmation")}</option>
 						</select>
 					</div>
 
@@ -250,7 +252,7 @@ function UploadPage() {
 						disabled={!canUpload}
 						onClick={handleUpload}
 					>
-						{isUploading ? "Uploading..." : "Upload File"}
+						{isUploading ? t("upload.uploading") : t("upload.uploadFile")}
 					</button>
 				</div>
 			</div>

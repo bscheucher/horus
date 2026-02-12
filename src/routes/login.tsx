@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/login")({
 	component: LoginPage,
@@ -8,6 +9,7 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
+	const { t } = useTranslation();
 
 	const handleLogin = () => {
 		setLoading(true);
@@ -20,7 +22,7 @@ function LoginPage() {
 				<div className="h-40">
 					<img
 						src="/aspire-logo.svg"
-						alt="Aspire Logo"
+						alt={t("common.aspireLogoAlt")}
 						className="h-full w-auto"
 					/>
 				</div>
@@ -31,7 +33,7 @@ function LoginPage() {
 					<div className="mb-8 flex w-40">
 						<img
 							src="/ibis-acam-logo.svg"
-							alt="ibis acam Logo"
+							alt={t("common.ibisAcamLogoAlt")}
 							className="h-auto w-full"
 						/>
 					</div>
@@ -43,8 +45,8 @@ function LoginPage() {
 						className="w-full rounded-md bg-ibis-blue px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-ibis-blue-light active:bg-ibis-blue-dark disabled:cursor-not-allowed disabled:opacity-60 transition-colors"
 					>
 						{loading
-							? "Sie werden weitergeleitet..."
-							: "Mit Azure SSO einloggen"}
+							? t("login.redirecting")
+							: t("login.loginWithAzure")}
 					</button>
 				</div>
 			</div>
