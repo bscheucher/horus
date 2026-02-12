@@ -3,6 +3,7 @@ import { useState } from "react";
 import { apiClient } from "../../lib/api-client";
 import { PageContainer } from "../../components/PageContainer";
 import { Card } from "../../components/Card";
+import { DataRow } from "../../components/DataRow";
 
 type UploadReviewSearch = {
 	start: string;
@@ -92,8 +93,7 @@ function UploadReviewPage() {
 					</p>
 
 					<div className="bg-base-200 rounded-lg p-6 space-y-4">
-						<div className="flex justify-between items-center">
-							<span className="font-medium">First Name</span>
+						<DataRow label="First Name">
 							{isEditing ? (
 								<input
 									type="text"
@@ -104,11 +104,10 @@ function UploadReviewPage() {
 							) : (
 								<span className="text-lg">{firstName}</span>
 							)}
-						</div>
+						</DataRow>
 						<div className="divider my-0" />
 
-						<div className="flex justify-between items-center">
-							<span className="font-medium">Last Name</span>
+						<DataRow label="Last Name">
 							{isEditing ? (
 								<input
 									type="text"
@@ -119,11 +118,10 @@ function UploadReviewPage() {
 							) : (
 								<span className="text-lg">{lastName}</span>
 							)}
-						</div>
+						</DataRow>
 						<div className="divider my-0" />
 
-						<div className="flex justify-between items-center">
-							<span className="font-medium">Start Date</span>
+						<DataRow label="Start Date">
 							{isEditing ? (
 								<input
 									type="date"
@@ -134,11 +132,10 @@ function UploadReviewPage() {
 							) : (
 								<span className="text-lg">{start}</span>
 							)}
-						</div>
+						</DataRow>
 						<div className="divider my-0" />
 
-						<div className="flex justify-between items-center">
-							<span className="font-medium">End Date</span>
+						<DataRow label="End Date">
 							{isEditing ? (
 								<input
 									type="date"
@@ -149,7 +146,7 @@ function UploadReviewPage() {
 							) : (
 								<span className="text-lg">{end}</span>
 							)}
-						</div>
+						</DataRow>
 					</div>
 
 					<div className="flex gap-4 mt-6">

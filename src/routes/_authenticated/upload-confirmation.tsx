@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod/v4";
 import { PageContainer } from "../../components/PageContainer";
 import { Card } from "../../components/Card";
+import { DataRow } from "../../components/DataRow";
 
 const uploadConfirmationSearchSchema = z.object({
 	start: z.string(),
@@ -46,25 +47,21 @@ function UploadConfirmationPage() {
 					</p>
 
 					<div className="bg-base-200 rounded-lg p-6 space-y-4">
-						<div className="flex justify-between items-center">
-							<span className="font-medium">First Name</span>
+						<DataRow label="First Name">
 							<span className="text-lg">{firstName}</span>
-						</div>
+						</DataRow>
 						<div className="divider my-0" />
-						<div className="flex justify-between items-center">
-							<span className="font-medium">Last Name</span>
+						<DataRow label="Last Name">
 							<span className="text-lg">{lastName}</span>
-						</div>
+						</DataRow>
 						<div className="divider my-0" />
-						<div className="flex justify-between items-center">
-							<span className="font-medium">Start Date</span>
+						<DataRow label="Start Date">
 							<span className="text-lg">{start}</span>
-						</div>
+						</DataRow>
 						<div className="divider my-0" />
-						<div className="flex justify-between items-center">
-							<span className="font-medium">End Date</span>
+						<DataRow label="End Date">
 							<span className="text-lg">{end}</span>
-						</div>
+						</DataRow>
 					</div>
 					<div className="card-actions mt-6">
 						<Link to="/upload" className="btn btn-primary w-full">
