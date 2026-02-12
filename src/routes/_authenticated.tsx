@@ -7,6 +7,14 @@ import {
 } from "@tanstack/react-router";
 import { isAuthenticated, setAuthenticated } from "../lib/auth";
 
+const navItems = [
+	{ to: "/dashboard", label: "Dashboard" },
+	{ to: "/upload", label: "Upload" },
+] as const;
+
+const navLinkClassName =
+	"text-white hover:text-ibis-yellow [&.active]:font-bold [&.active]:text-ibis-yellow";
+
 export const Route = createFileRoute("/_authenticated")({
 	beforeLoad: () => {
 		if (!isAuthenticated()) {
@@ -28,18 +36,11 @@ function AuthenticatedLayout() {
 		<>
 			{/* Navigation for authenticated pages */}
 			<nav className="flex gap-6 bg-ibis-blue-dark px-6 py-3">
-				<Link
-					to="/dashboard"
-					className="text-white hover:text-ibis-yellow [&.active]:font-bold [&.active]:text-ibis-yellow"
-				>
-					Dashboard
-				</Link>
-				<Link
-					to="/upload"
-					className="text-white hover:text-ibis-yellow [&.active]:font-bold [&.active]:text-ibis-yellow"
-				>
-					Upload
-				</Link>
+				{navItems.map((item) => (
+					<Link key={item.to} to={item.to} className={navLinkClassName}>
+						{item.label}
+					</Link>
+				))}
 				<button
 					type="button"
 					onClick={handleLogout}
