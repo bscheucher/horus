@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod/v4";
+import { PageContainer } from "../../components/PageContainer";
 
 const uploadConfirmationSearchSchema = z.object({
 	start: z.string(),
@@ -17,7 +18,7 @@ function UploadConfirmationPage() {
 	const { start, end, firstName, lastName } = Route.useSearch();
 
 	return (
-		<div className="container mx-auto p-8 max-w-2xl">
+		<PageContainer>
 			<div className="card bg-base-100 shadow-xl border border-gray-200">
 				<div className="card-body">
 					<div className="flex items-center gap-3 mb-4">
@@ -72,6 +73,6 @@ function UploadConfirmationPage() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</PageContainer>
 	);
 }
