@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { apiClient } from "../../lib/api-client";
+import { PageContainer } from "../../components/PageContainer";
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
 const ACCEPTED_EXTENSIONS = ".jpg,.jpeg,.png";
@@ -112,7 +113,7 @@ function UploadPage() {
 	const canUpload = file && type && !isUploading;
 
 	return (
-		<div className="container mx-auto p-8 max-w-2xl">
+		<PageContainer>
 			<div className="card bg-base-100 shadow-xl rounded-2xl border border-gray-200 pb-4">
 				<div className="card-body ">
 					<h2 className="card-title text-2xl mb-4">Upload File</h2>
@@ -253,6 +254,6 @@ function UploadPage() {
 					</button>
 				</div>
 			</div>
-		</div>
+		</PageContainer>
 	);
 }
