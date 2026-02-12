@@ -4,6 +4,7 @@ import { apiClient } from "../../lib/api-client";
 import { PageContainer } from "../../components/PageContainer";
 import { Card } from "../../components/Card";
 import { ErrorAlert } from "../../components/ErrorAlert";
+import { UploadDropIcon, UploadCloudIcon, SuccessCheckIcon } from "../../components/Icons";
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
 const ACCEPTED_EXTENSIONS = ".jpg,.jpeg,.png";
@@ -136,21 +137,7 @@ function UploadPage() {
 					>
 						{!file ? (
 							<>
-								<svg
-									className="mx-auto h-12 w-12 text-base-content/40"
-									stroke="currentColor"
-									fill="none"
-									viewBox="0 0 48 48"
-									aria-hidden="true"
-								>
-									<title>Upload icon</title>
-									<path
-										d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-										strokeWidth={2}
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-								</svg>
+								<UploadDropIcon className="mx-auto h-12 w-12 text-base-content/40" />
 								<p className="mt-4 text-lg font-medium">
 									Drag and drop your file here
 								</p>
@@ -160,21 +147,7 @@ function UploadPage() {
 							</>
 						) : (
 							<div className="flex items-center justify-center gap-4">
-								<svg
-									className="h-10 w-10 text-success"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									aria-hidden="true"
-								>
-									<title>Success checkmark</title>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-									/>
-								</svg>
+								<SuccessCheckIcon className="h-10 w-10 text-success" />
 								<div className="text-left">
 									<p className="font-medium">{file.name}</p>
 									<p className="text-sm text-base-content/60">
@@ -188,21 +161,7 @@ function UploadPage() {
 					{/* File Input Button */}
 					<div className="mt-4 flex gap-4">
 						<label className="btn btn-primary flex-1">
-							<svg
-								className="w-5 h-5 mr-2"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-								aria-hidden="true"
-							>
-								<title>Upload icon</title>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-								/>
-							</svg>
+							<UploadCloudIcon className="w-5 h-5 mr-2" />
 							Choose File
 							<input
 								type="file"

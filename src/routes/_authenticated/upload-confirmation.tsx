@@ -3,6 +3,7 @@ import { z } from "zod/v4";
 import { PageContainer } from "../../components/PageContainer";
 import { Card } from "../../components/Card";
 import { DataRow } from "../../components/DataRow";
+import { SuccessCheckIcon } from "../../components/Icons";
 
 const uploadConfirmationSearchSchema = z.object({
 	start: z.string(),
@@ -23,21 +24,7 @@ function UploadConfirmationPage() {
 		<PageContainer>
 			<Card>
 					<div className="flex items-center gap-3 mb-4">
-						<svg
-							className="h-8 w-8 text-success"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							aria-hidden="true"
-						>
-							<title>Success</title>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
+						<SuccessCheckIcon className="h-8 w-8 text-success" />
 						<h2 className="card-title text-2xl">Upload Successful</h2>
 					</div>
 
