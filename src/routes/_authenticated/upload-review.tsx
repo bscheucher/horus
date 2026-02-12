@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { apiClient } from "../../lib/api-client";
 import { PageContainer } from "../../components/PageContainer";
+import { Card } from "../../components/Card";
 
 type UploadReviewSearch = {
 	start: string;
@@ -75,8 +76,7 @@ function UploadReviewPage() {
 
 	return (
 		<PageContainer>
-			<div className="card bg-base-100 shadow-xl border border-gray-200">
-				<div className="card-body">
+			<Card>
 					<h2 className="card-title text-2xl mb-4">Review Upload Data</h2>
 
 					{error && (
@@ -198,8 +198,7 @@ function UploadReviewPage() {
 							</>
 						)}
 					</div>
-				</div>
-			</div>
+			</Card>
 		</PageContainer>
 	);
 }
