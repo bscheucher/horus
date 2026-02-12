@@ -3,6 +3,7 @@ import { useState } from "react";
 import { apiClient } from "../../lib/api-client";
 import { PageContainer } from "../../components/PageContainer";
 import { Card } from "../../components/Card";
+import { ErrorAlert } from "../../components/ErrorAlert";
 import { DataRow } from "../../components/DataRow";
 
 type UploadReviewSearch = {
@@ -80,11 +81,7 @@ function UploadReviewPage() {
 			<Card>
 					<h2 className="card-title text-2xl mb-4">Review Upload Data</h2>
 
-					{error && (
-						<div className="alert alert-error mb-4">
-							<span>{error}</span>
-						</div>
-					)}
+					<ErrorAlert message={error} />
 
 					<p className="text-base-content/70 mb-6">
 						Please review the data returned by the server. If everything is

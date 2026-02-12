@@ -3,6 +3,7 @@ import { useState } from "react";
 import { apiClient } from "../../lib/api-client";
 import { PageContainer } from "../../components/PageContainer";
 import { Card } from "../../components/Card";
+import { ErrorAlert } from "../../components/ErrorAlert";
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
 const ACCEPTED_EXTENSIONS = ".jpg,.jpeg,.png";
@@ -118,11 +119,7 @@ function UploadPage() {
 			<Card className="rounded-2xl pb-4">
 					<h2 className="card-title text-2xl mb-4">Upload File</h2>
 
-					{error && (
-						<div className="alert alert-error mb-4">
-							<span>{error}</span>
-						</div>
-					)}
+					<ErrorAlert message={error} />
 
 					{/* Drag and Drop Zone */}
 					<section
