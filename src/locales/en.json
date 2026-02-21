@@ -1,0 +1,72 @@
+{
+  "common": {
+    "aspireLogoAlt": "Aspire Logo",
+    "ibisAcamLogoAlt": "ibis acam Logo",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "address": "Address",
+    "reason": "Reason for Inability to Work",
+    "issueDate": "Issue Date",
+    "insuranceNumber": "Insurance Number",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "confirming": "Confirming..."
+  },
+  "login": {
+    "redirecting": "You are being redirected...",
+    "loginWithAzure": "Login with Azure SSO"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "upload": "Upload",
+    "logout": "Logout"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to the Teilnehmer-Portal!"
+  },
+  "dashboard": {
+    "title": "Teilnehmer-Portal",
+    "subtitle": "Welcome to the Construction Site",
+    "description": "We're working hard to bring you an amazing experience. Stay tuned for updates!"
+  },
+  "upload": {
+    "title": "Absence Justification",
+    "infoTitle": "Important Note:",
+    "infoBody": "Please upload your confirmation document first. The system will automatically extract the relevant data and fill in the fields for you.",
+    "invalidFileType": "Only JPG, PNG and PDF files are allowed.",
+    "uploadFailed": "Upload failed. Please try again.",
+    "dropZoneLabel": "File drop zone",
+    "dragAndDrop": "Upload Document here",
+    "documentTypeHint": "Medical confirmation, excuse or other proof",
+    "fileTypeSizeHint": "Supported formats: PDF, JPG, PNG • Maximum size: 10 MB",
+    "fileSizeError": "File size must be less than {{size}} MB.",
+    "chooseFile": "Choose File",
+    "remove": "Remove",
+    "selectDocumentType": "Select document type",
+    "sickLeave": "Krankmeldung",
+    "timeConfirmation": "Zeitbestätigung",
+    "uploading": "Uploading...",
+    "uploadFile": "Upload File"
+  },
+  "uploadReview": {
+    "title": "Absence Details",
+    "instructions": "The data has been automatically extracted from your document.\nPlease review and correct the information if necessary.",
+    "confirmationFailed": "Confirmation failed. Please try again.",
+    "confirmChanges": "Confirm Changes"
+  },
+  "uploadConfirmation": {
+    "successTitle": "Success",
+    "title": "Upload Successful",
+    "message": "Your document has been uploaded successfully. Below are the details of your submission.",
+    "uploadAnother": "Upload Another File"
+  },
+  "uploadProgress": {
+    "step1": "Upload Document",
+    "step2": "Enter Details",
+    "step3": "Submit"
+  }
+}

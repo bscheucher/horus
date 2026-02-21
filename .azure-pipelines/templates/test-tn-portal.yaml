@@ -1,0 +1,3 @@
+steps:
+  - script: npm test
+    displayName: Run tn-portal tests

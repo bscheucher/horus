@@ -1,0 +1,84 @@
+name: TN-Portal-Build-$(Date:yyyyMMdd)$(Rev:.r)
+
+# Run on commits to main
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - tn-portal/**
+      - .azure-pipelines/tn-portal-build.yaml
+      - .azure-pipelines/templates/build-tn-portal.yaml
+      - .azure-pipelines/templates/test-tn-portal.yaml
+
+# Don't run on PRs
+pr: none
+
+variables:
+  - name: NPM_CONFIG_CACHE
+    value: $(Pipeline.Workspace)/.npm
+
+pool:
+  vmImage: 'ubuntu-24.04'
+
+stages:
+  # Stage 1: Run tests
+  - stage: Test
+    displayName: 'Test TN-Portal'
+    jobs:
+      - job: RunTests
+        displayName: 'Run Tests'
+        steps:
+          - checkout: self
+            clean: true
+
+          - template: templates/install-nodejs.yaml
+            parameters:
+              NODE_VERSION: '20.x'
+
+          - script: |
+              cd tn-portal
+              npm ci --cache $(NPM_CONFIG_CACHE) --prefer-offline
+            displayName: Install tn-portal dependencies
+
+          - script: npm cache verify --cache $(NPM_CONFIG_CACHE)
+            displayName: Verify npm cache
+
+          - script: npm test
+            displayName: Run tn-portal tests
+            workingDirectory: tn-portal
+
+  # Stage 2: Build application (only if tests pass)
+  - stage: Build
+    displayName: 'Build TN-Portal'
+    dependsOn: Test
+    condition: succeeded()
+    jobs:
+      - job: BuildApp
+        displayName: 'Build Application'
+        steps:
+          - checkout: self
+            clean: true
+
+          - template: templates/install-nodejs.yaml
+            parameters:
+              NODE_VERSION: '20.x'
+
+          - script: |
+              cd tn-portal
+              npm ci --cache $(NPM_CONFIG_CACHE) --prefer-offline
+            displayName: Install tn-portal dependencies
+
+          - script: npm cache verify --cache $(NPM_CONFIG_CACHE)
+            displayName: Verify npm cache
+
+          - script: npm run build
+            displayName: Build tn-portal
+            workingDirectory: tn-portal
+
+          - script: |
+              echo "Build completed successfully"
+              echo "Artifact location: tn-portal/dist"
+              echo "Note: Artifact is not published per requirements"
+            displayName: Build Summary

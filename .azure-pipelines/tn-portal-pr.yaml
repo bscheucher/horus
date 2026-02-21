@@ -1,0 +1,47 @@
+name: TN-Portal-PR-$(Date:yyyyMMdd)$(Rev:.r)
+
+# Only run on pull requests
+trigger: none
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - tn-portal/**
+      - .azure-pipelines/tn-portal-pr.yaml
+      - .azure-pipelines/templates/test-tn-portal.yaml
+
+variables:
+  - name: NPM_CONFIG_CACHE
+    value: $(Pipeline.Workspace)/.npm
+
+pool:
+  vmImage: 'ubuntu-24.04'
+
+jobs:
+  - job: TestTNPortal
+    displayName: 'Test TN-Portal'
+    steps:
+      - checkout: self
+        clean: true
+
+      # Install Node.js
+      - template: templates/install-nodejs.yaml
+        parameters:
+          NODE_VERSION: '20.x'
+
+      # Install dependencies with caching
+      - script: |
+          cd tn-portal
+          npm ci --cache $(NPM_CONFIG_CACHE) --prefer-offline
+        displayName: Install tn-portal dependencies
+
+      - script: npm cache verify --cache $(NPM_CONFIG_CACHE)
+        displayName: Verify npm cache
+
+      # Run tests
+      - script: npm test
+        displayName: Run tn-portal tests
+        workingDirectory: tn-portal

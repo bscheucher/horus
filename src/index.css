@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+    /* Colors */
+    --color-ibis-blue: #0058a2;
+    --color-ibis-blue-light: #066cc2;
+    --color-ibis-blue-dark: #044276;
+    --color-ibis-cyan: #1a92d5;
+    --color-ibis-indigo-light: #5851e1;
+    --color-ibis-indigo: #544fc9;
+    --color-ibis-purple: #5d00a2;
+    --color-ibis-emerald: #00a27a;
+    --color-ibis-yellow: #fcc700;
+    --color-ibis-yellow-light: #ffd432;
+    --color-ibis-gray-dark: #b1b2b4;
+    --color-ibis-gray-light: #d9dadc;
+    --color-ibis-gray-lighter: #f5f8fd;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.content {
+    display: flex;
+    min-height: 100vh;
+    line-height: 1.1;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.content h1 {
+    font-size: 3.6rem;
+    font-weight: 700;
+}
+
+.content p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    opacity: 0.5;
+}

@@ -1,0 +1,72 @@
+{
+  "common": {
+    "aspireLogoAlt": "Aspire Logo",
+    "ibisAcamLogoAlt": "ibis acam Logo",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "address": "Krankenstandsadresse",
+    "reason": "Grund der Arbeitsunfähigkeit",
+    "issueDate": "Ausstellungsdatum",
+    "insuranceNumber": "Versicherungsnummer",
+    "edit": "Bearbeiten",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "confirming": "Wird bestätigt..."
+  },
+  "login": {
+    "redirecting": "Sie werden weitergeleitet...",
+    "loginWithAzure": "Mit Azure SSO einloggen"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "upload": "Upload",
+    "logout": "Logout"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Willkommen im Teilnehmer-Portal!"
+  },
+  "dashboard": {
+    "title": "Teilnehmer-Portal",
+    "subtitle": "Willkommen auf der Baustelle",
+    "description": "Wir arbeiten hart daran, Ihnen ein großartiges Erlebnis zu bieten. Bleiben Sie dran für Updates!"
+  },
+  "upload": {
+    "title": "Abwesenheitsmeldung",
+    "infoTitle": "Wichtiger Hinweis:",
+    "infoBody": "Laden Sie zuerst Ihr Bestätigungsdokument hoch. Das System extrahiert automatisch die relevanten Daten und füllt die Felder für Sie aus.",
+    "invalidFileType": "Nur JPG-, PNG- und PDF-Dateien sind erlaubt.",
+    "uploadFailed": "Upload fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "dropZoneLabel": "Datei-Ablagezone",
+    "dragAndDrop": "Dokument hier hochladen",
+    "documentTypeHint": "Ärztliche Bestätigung, Entschuldigung oder anderer Nachweis",
+    "fileTypeSizeHint": "Unterstützte Formate: PDF, JPG, PNG • Maximale Größe: 10 MB",
+    "fileSizeError": "Dokument muss kleiner als {{size}} MB sein.",
+    "chooseFile": "Datei auswählen",
+    "remove": "Entfernen",
+    "selectDocumentType": "Dokumenttyp auswählen",
+    "sickLeave": "Krankmeldung",
+    "timeConfirmation": "Zeitbestätigung",
+    "uploading": "Wird hochgeladen...",
+    "uploadFile": "Datei hochladen"
+  },
+  "uploadReview": {
+    "title": "Abwesenheitsdetails",
+    "instructions": "Die Daten wurden automatisch aus Ihrem Dokument extrahiert.  \nÜberprüfen und korrigieren Sie die Angaben bei Bedarf.",
+    "confirmationFailed": "Bestätigung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "confirmChanges": "Änderungen bestätigen"
+  },
+  "uploadConfirmation": {
+    "successTitle": "Erfolg",
+    "title": "Upload erfolgreich",
+    "message": "Ihr Dokument wurde erfolgreich hochgeladen. Nachfolgend finden Sie die Details Ihrer Einreichung.",
+    "uploadAnother": "Weitere Datei hochladen"
+  },
+  "uploadProgress": {
+    "step1": "Dokument hochladen",
+    "step2": "Details eingeben",
+    "step3": "Absenden"
+  }
+}
