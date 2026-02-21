@@ -2,35 +2,26 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { BackgroundDecorations } from "../../components/BackgroundDecorations.tsx";
 import { ErrorAlert } from "../../components/ErrorAlert";
 import { ArrowRightIcon, Checkbox3DIcon } from "../../components/Icons.tsx";
 import { PageWrapper } from "../../components/PageWrapper.tsx";
 import { UploadProgress } from "../../components/UploadProgress.tsx";
 import { apiClient } from "../../lib/api/api-client.ts";
-
-// Types remain the same...
-type UploadReviewSearch = {
-	firstName: string;
-	lastName: string;
-	start: string;
-	end: string;
-	address: string;
-	reason: string;
-	issueDate: string;
-	insuranceNumber: string;
-};
+import { uploadDataSchema, type UploadData } from "../../lib/types/upload.ts";
 
 export const Route = createFileRoute("/_authenticated/upload-review")({
-	validateSearch: (search: Record<string, unknown>): UploadReviewSearch => ({
-		firstName: String(search.firstName ?? ""),
-		lastName: String(search.lastName ?? ""),
-		start: String(search.start ?? ""),
-		end: String(search.end ?? ""),
-		address: String(search.address ?? ""),
-		reason: String(search.reason ?? ""),
-		issueDate: String(search.issueDate ?? ""),
-		insuranceNumber: String(search.insuranceNumber ?? ""),
-	}),
+	validateSearch: (search: Record<string, unknown>): UploadData =>
+		uploadDataSchema.parse({
+			firstName: search.firstName ?? "",
+			lastName: search.lastName ?? "",
+			start: search.start ?? "",
+			end: search.end ?? "",
+			address: search.address ?? "",
+			reason: search.reason ?? "",
+			issueDate: search.issueDate ?? "",
+			insuranceNumber: search.insuranceNumber ?? "",
+		}),
 	component: UploadReviewPage,
 });
 
@@ -38,17 +29,16 @@ function UploadReviewPage() {
 	const searchParams = Route.useSearch();
 	const navigate = useNavigate();
 	const { t } = useTranslation();
-	const [editValues, setEditValues] =
-		useState<UploadReviewSearch>(searchParams);
+	const [editValues, setEditValues] = useState<UploadData>(searchParams);
 
 	const updateField =
-		(field: keyof UploadReviewSearch) =>
+		(field: keyof UploadData) =>
 		(e: React.ChangeEvent<HTMLInputElement>) =>
 			setEditValues((prev) => ({ ...prev, [field]: e.target.value }));
 
 	const confirmMutation = useMutation({
 		mutationFn: () =>
-			apiClient.post<UploadReviewSearch>("/tn-document/confirm", editValues),
+			apiClient.post<UploadData>("/tn-document/confirm", editValues),
 		onSuccess: (data) => {
 			navigate({ to: "/upload-confirmation", search: data });
 		},
@@ -63,7 +53,7 @@ function UploadReviewPage() {
 
 	const renderField = (
 		label: string,
-		field: keyof UploadReviewSearch,
+		field: keyof UploadData,
 		inputType: "text" | "date" = "text",
 		fullWidth: boolean = false,
 		isReadOnly: boolean = false,
@@ -94,13 +84,10 @@ function UploadReviewPage() {
 	return (
 		<PageWrapper>
 			<div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50 via-slate-50 to-white pb-12">
-				<div
-					className="pointer-events-none fixed inset-0 overflow-hidden"
-					aria-hidden="true"
-				>
-					<div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-200/30 blur-3xl" />
-					<div className="absolute top-1/2 -left-24 h-72 w-72 rounded-full bg-sky-200/20 blur-3xl" />
-				</div>
+				<BackgroundDecorations
+					topRightClass="bg-blue-200/30"
+					bottomLeftClass="bg-sky-200/20"
+				/>
 
 				<div className="relative mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 pt-8 sm:pt-12">
 					<header className="flex flex-col gap-2">

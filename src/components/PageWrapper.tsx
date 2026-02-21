@@ -7,9 +7,7 @@ import { setAuthenticated } from "../lib/auth.ts";
 type Props = {
 	children: ReactNode;
 	title?: string;
-	action?: ReactNode;
 	className?: string;
-	contentClassName?: string;
 	centerTitle?: boolean;
 };
 

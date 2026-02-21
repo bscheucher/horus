@@ -1,23 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { z } from "zod"; // Note: Standard zod import is usually sufficient
+import { BackgroundDecorations } from "../../components/BackgroundDecorations.tsx";
 import { PlusIcon, SuccessCheckIcon } from "../../components/Icons";
 import { PageWrapper } from "../../components/PageWrapper.tsx";
 import { UploadProgress } from "../../components/UploadProgress.tsx";
-
-const uploadConfirmationSearchSchema = z.object({
-	firstName: z.string(),
-	lastName: z.string(),
-	start: z.string(),
-	end: z.string(),
-	address: z.string(),
-	reason: z.string(),
-	issueDate: z.string(),
-	insuranceNumber: z.string(),
-});
+import { uploadDataSchema } from "../../lib/types/upload.ts";
 
 export const Route = createFileRoute("/_authenticated/upload-confirmation")({
-	validateSearch: uploadConfirmationSearchSchema,
+	validateSearch: uploadDataSchema,
 	component: UploadConfirmationPage,
 });
 
@@ -47,13 +37,10 @@ function UploadConfirmationPage() {
 	return (
 		<PageWrapper>
 			<div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-green-50 via-slate-50 to-white pb-12">
-				<div
-					className="pointer-events-none fixed inset-0 overflow-hidden"
-					aria-hidden="true"
-				>
-					<div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-green-100/40 blur-3xl" />
-					<div className="absolute bottom-0 -left-24 h-72 w-72 rounded-full bg-blue-100/30 blur-3xl" />
-				</div>
+				<BackgroundDecorations
+					topRightClass="bg-green-100/40"
+					bottomLeftClass="bg-blue-100/30"
+				/>
 
 				<div className="relative mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 pt-8 sm:pt-12">
 					<header className="flex flex-col gap-2">

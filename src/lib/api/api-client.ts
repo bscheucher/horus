@@ -26,14 +26,19 @@ class ApiClient {
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
+		// When sending FormData the browser must set Content-Type (including the
+		// multipart boundary) automatically, so we only apply the JSON header for
+		// non-FormData bodies.
+		const isFormData = options?.body instanceof FormData;
+		const headers = isFormData
+			? options?.headers
+			: { "Content-Type": "application/json", ...options?.headers };
+
 		try {
 			const response = await fetch(url, {
 				...options,
 				signal: controller.signal,
-				headers: {
-					"Content-Type": "application/json",
-					...options?.headers,
-				},
+				headers,
 			});
 
 			if (!response.ok) {
@@ -78,39 +83,7 @@ class ApiClient {
 	}
 
 	async postFormData<T>(endpoint: string, formData: FormData): Promise<T> {
-		const url = `${this.baseUrl}${endpoint}`;
-
-		if (this.debug) {
-			console.log(`[API] POST (FormData) ${url}`);
-		}
-
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-
-		try {
-			const response = await fetch(url, {
-				method: "POST",
-				body: formData,
-				signal: controller.signal,
-			});
-
-			if (!response.ok) {
-				throw new HttpError(
-					response.status,
-					`HTTP error! status: ${response.status}`,
-				);
-			}
-
-			const data = await response.json();
-
-			if (this.debug) {
-				console.log(`[API] Response:`, data);
-			}
-
-			return data;
-		} finally {
-			clearTimeout(timeoutId);
-		}
+		return this.request<T>(endpoint, { method: "POST", body: formData });
 	}
 
 	async postFormDataSSE<T>(

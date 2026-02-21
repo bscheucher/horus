@@ -4,41 +4,29 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorAlert } from "../../components/ErrorAlert";
 import { FileDropZone } from "../../components/FileDropZone.tsx";
-import { InfoIcon } from "../../components/Icons.tsx";
+import { InfoIcon, TrashIcon } from "../../components/Icons.tsx";
+import { BackgroundDecorations } from "../../components/BackgroundDecorations.tsx";
 import { PageWrapper } from "../../components/PageWrapper.tsx";
 import { UploadProgress } from "../../components/UploadProgress.tsx";
 import { apiClient } from "../../lib/api/api-client.ts";
 import type { HttpError } from "../../lib/error/http-error.ts";
+import type { UploadResult } from "../../lib/types/upload.ts";
 
 export const Route = createFileRoute("/_authenticated/upload")({
 	component: UploadPage,
 });
 
-interface ExtractionField {
-	validation_problem: boolean;
-	note: string;
-	confidence: number;
-	bbox_refs: { page_num: number; bbox_id: number }[];
-	value: string;
-}
-
-interface UploadResult {
-	processing_id: string;
-	workflow_id: string;
-	workflow_name: string;
-	available_results: string[];
-	extractions: {
-		schema_version: number;
-		document_type: string;
-		vorname: ExtractionField | null;
-		familienname: ExtractionField | null;
-		krankenstandsadresse: ExtractionField | null;
-		arbeitsunfaehig_von: ExtractionField | null;
-		letzter_tag_der_arbeitsunfaehigkeit: ExtractionField | null;
-		grund_der_arbeitsunfaehigkeit: ExtractionField | null;
-		ausstellungsdatum: ExtractionField | null;
-		versicherungsnummer: ExtractionField | null;
-	};
+function parseUploadResult(data: Record<string, unknown>): UploadResult | null {
+	if (typeof data.result === "string") {
+		return JSON.parse(data.result) as UploadResult;
+	}
+	if (data.result && typeof data.result === "object") {
+		return data.result as UploadResult;
+	}
+	if (data.extractions) {
+		return data as unknown as UploadResult;
+	}
+	return null;
 }
 
 function UploadPage() {
@@ -70,14 +58,9 @@ function UploadPage() {
 						setStatusMessage((event.data as { message: string }).message);
 					}
 					if (event.event === "success" && event.data) {
-						const data = event.data as Record<string, unknown>;
-						if (typeof data.result === "string") {
-							uploadResult = JSON.parse(data.result);
-						} else if (data.result && typeof data.result === "object") {
-							uploadResult = data.result as UploadResult;
-						} else if (data.extractions) {
-							uploadResult = data as unknown as UploadResult;
-						}
+						uploadResult = parseUploadResult(
+							event.data as Record<string, unknown>,
+						);
 					}
 					if (event.event === "error" && event.data) {
 						sseError = (event.data as { error: string }).error;
@@ -88,13 +71,7 @@ function UploadPage() {
 			if (sseError) throw new Error(sseError);
 
 			if (!uploadResult) {
-				if (typeof response.result === "string") {
-					uploadResult = JSON.parse(response.result as string);
-				} else if (response.result && typeof response.result === "object") {
-					uploadResult = response.result as UploadResult;
-				} else if (response.extractions) {
-					uploadResult = response as unknown as UploadResult;
-				}
+				uploadResult = parseUploadResult(response);
 			}
 
 			if (!uploadResult?.extractions) {
@@ -152,13 +129,10 @@ function UploadPage() {
 	return (
 		<PageWrapper>
 			<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
-				<div
-					className="pointer-events-none fixed inset-0 overflow-hidden"
-					aria-hidden="true"
-				>
-					<div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-blue-100/40 blur-3xl" />
-					<div className="absolute bottom-0 -left-24 h-72 w-72 rounded-full bg-sky-100/50 blur-3xl" />
-				</div>
+				<BackgroundDecorations
+					topRightClass="bg-blue-100/40"
+					bottomLeftClass="bg-sky-100/50"
+				/>
 
 				<div className="relative mx-auto flex w-full max-w-lg flex-col gap-4 px-4 py-6 sm:py-10">
 					<div className="rounded-2xl bg-white/80 px-6 py-5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur-sm">
@@ -226,20 +200,7 @@ function UploadPage() {
 									onClick={handleRemoveFile}
 									className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white py-2.5 text-sm font-medium text-slate-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500 active:scale-[0.98]"
 								>
-									<svg
-										className="h-4 w-4"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										strokeWidth={2}
-										aria-hidden="true"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-										/>
-									</svg>
+									<TrashIcon className="h-4 w-4" />
 									{t("upload.remove")}
 								</button>
 							)}
