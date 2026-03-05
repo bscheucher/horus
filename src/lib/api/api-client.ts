@@ -1,5 +1,6 @@
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { config } from "../../config/env.ts";
+import { authService } from "../auth/index.ts";
 import { HttpError } from "../error/http-error.ts";
 
 class ApiClient {
@@ -11,6 +12,11 @@ class ApiClient {
 		this.baseUrl = config.apiBaseUrl;
 		this.timeout = config.apiTimeout;
 		this.debug = config.isDev;
+	}
+
+	private getAuthHeaders(): Record<string, string> {
+		const token = authService.getToken();
+		return token ? { Authorization: `Bearer ${token}` } : {};
 	}
 
 	private async request<T>(
@@ -32,6 +38,7 @@ class ApiClient {
 				signal: controller.signal,
 				headers: {
 					"Content-Type": "application/json",
+					...this.getAuthHeaders(),
 					...options?.headers,
 				},
 			});
@@ -92,6 +99,7 @@ class ApiClient {
 				method: "POST",
 				body: formData,
 				signal: controller.signal,
+				headers: this.getAuthHeaders(),
 			});
 
 			if (!response.ok) {
@@ -134,6 +142,7 @@ class ApiClient {
 				method: "POST",
 				body: formData,
 				signal: controller.signal,
+				headers: this.getAuthHeaders(),
 				openWhenHidden: true,
 				async onopen(response) {
 					if (!response.ok) {

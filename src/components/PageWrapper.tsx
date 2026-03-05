@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
-import { setAuthenticated } from "../lib/auth.ts";
+import { authService } from "../lib/auth";
 
 type Props = {
 	children: ReactNode;
@@ -24,12 +24,10 @@ export function PageWrapper({
 	className = "",
 	centerTitle = false,
 }: Props) {
-	const navigate = useNavigate();
 	const { t } = useTranslation();
 
-	const handleLogout = () => {
-		setAuthenticated(false);
-		navigate({ to: "/login" });
+	const handleLogout = async () => {
+		await authService.logout();
 	};
 
 	return (

@@ -1,19 +1,24 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { authService } from "../lib/auth";
 
 export const Route = createFileRoute("/login")({
+	beforeLoad: () => {
+		if (authService.isAuthenticated()) {
+			throw redirect({ to: "/upload" });
+		}
+	},
 	component: LoginPage,
 });
 
 function LoginPage() {
-	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const { t } = useTranslation();
 
-	const handleLogin = () => {
+	const handleLogin = async () => {
 		setLoading(true);
-		navigate({ to: "/mock-azure-login" });
+		await authService.login();
 	};
 
 	return (

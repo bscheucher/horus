@@ -1,9 +1,12 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { isAuthenticated } from "../lib/auth";
+import { authService } from "../lib/auth";
 
 export const Route = createFileRoute("/_authenticated")({
-	beforeLoad: () => {
-		if (!isAuthenticated()) {
+	beforeLoad: async () => {
+		// Ensure MSAL is initialized and any redirect response is handled
+		await authService.initialize();
+
+		if (!authService.isAuthenticated()) {
 			throw redirect({ to: "/login" });
 		}
 	},
