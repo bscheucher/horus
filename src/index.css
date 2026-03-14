@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@plugin "daisyui";
+
+@theme {
+    /* Colors */
+    --color-ibis-blue: #0058a2;
+    --color-ibis-blue-light: #066cc2;
+    --color-ibis-blue-dark: #044276;
+    --color-ibis-cyan: #1a92d5;
+    --color-ibis-indigo-light: #5851e1;
+    --color-ibis-indigo: #544fc9;
+    --color-ibis-purple: #5d00a2;
+    --color-ibis-emerald: #00a27a;
+    --color-ibis-yellow: #fcc700;
+    --color-ibis-yellow-light: #ffd432;
+    --color-ibis-gray-dark: #b1b2b4;
+    --color-ibis-gray-light: #d9dadc;
+    --color-ibis-gray-lighter: #f5f8fd;
+}
+
+
+body {
+    margin: 0;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.content {
+    display: flex;
+    min-height: 100vh;
+    line-height: 1.1;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    container-type: inline-size;
+}
+
+.content h1 {
+    font-size: clamp(2rem, 6cqi, 3.6rem);
+    font-weight: 700;
+}
+
+.content p {
+    font-size: clamp(1rem, 2cqi, 1.2rem);
+    font-weight: 400;
+    opacity: 0.5;
+}
+
+.steps .step:before,
+.steps .step:after {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.steps .step-success + .step-primary:before {
+    @apply bg-success;
+}
+
+@layer utilities {
+    .text-fluid-xs {
+        font-size: clamp(0.625rem, 2cqi, 0.75rem);
+    }
+
+    .text-fluid-sm {
+        font-size: clamp(0.75rem, 2cqi, 0.875rem);
+    }
+
+    .text-fluid-base {
+        font-size: clamp(0.875rem, 2.5cqi, 1rem);
+    }
+
+    .text-fluid-lg {
+        font-size: clamp(1rem, 3cqi, 1.125rem);
+    }
+
+    .text-fluid-xl {
+        font-size: clamp(1.125rem, 3cqi, 1.25rem);
+    }
+
+    .text-fluid-2xl {
+        font-size: clamp(1.25rem, 4cqi, 1.5rem);
+    }
+
+    .text-fluid-3xl {
+        font-size: clamp(1.5rem, 4cqi, 1.875rem);
+    }
+
+    .text-fluid-5xl {
+        font-size: clamp(2rem, 6cqi, 3rem);
+    }
+}

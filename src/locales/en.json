@@ -1,0 +1,59 @@
+{
+  "common": {
+    "aspireLogoAlt": "Aspire Logo",
+    "ibisAcamLogoAlt": "ibis acam Logo",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "address": "Sick Leave Address",
+    "reason": "Reason for Incapacity to Work",
+    "issueDate": "Issue Date",
+    "insuranceNumber": "Insurance Number",
+    "confirmButton": "Submit"
+  },
+  "login": {
+    "redirecting": "You are being redirected...",
+    "loginWithAzure": "Log in with Azure SSO"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "upload": "Upload",
+    "logout": "Logout"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to the Participant Portal!"
+  },
+  "upload": {
+    "title": "Absence Report",
+    "infoTitle": "Important Note:",
+    "infoBody": "Please upload your confirmation document first. The system will automatically extract the relevant data and fill in the fields for you.",
+    "invalidFileType": "Only JPG, PNG, and PDF files are allowed.",
+    "uploadStatusMessage": "Your document is being processed.",
+    "uploadFailed": "Upload failed. Please try again.",
+    "dropZoneLabel": "File Drop Zone",
+    "fileUpload": "Upload document here",
+    "documentTypeHint": "Medical certificate, excuse note, or other supporting document",
+    "fileTypeSizeHint": "Supported formats: PDF, JPG, PNG • Maximum size: 10 MB",
+    "fileSizeError": "Document must be smaller than {{size}} MB.",
+    "remove": "Remove"
+  },
+  "uploadReview": {
+    "title": "Absence Details",
+    "instructions": "Your document has been processed. Please review the details before submitting.",
+    "confirmationFailed": "Confirmation failed. Please try again."
+  },
+  "uploadConfirmation": {
+    "uploadSuccessTitlePart1": "Form successfully",
+    "uploadSuccessTitlePart2": "submitted",
+    "uploadSuccessDescription": "Your absence report has been saved and forwarded.",
+    "uploadSuccessBadge": "SUBMITTED",
+    "uploadSuccessButton": "Back to Home"
+  },
+  "uploadProgress": {
+    "step1": "Upload Document",
+    "step2": "Enter Details",
+    "step3": "Submit"
+  }
+}

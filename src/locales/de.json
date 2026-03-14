@@ -1,0 +1,58 @@
+{
+  "common": {
+    "aspireLogoAlt": "Aspire Logo",
+    "ibisAcamLogoAlt": "ibis acam Logo",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "address": "Krankenstandsadresse",
+    "reason": "Grund der Arbeitsunfähigkeit",
+    "issueDate": "Ausstellungsdatum",
+    "insuranceNumber": "Versicherungsnummer",
+    "confirmButton": "Absenden"
+  },
+  "login": {
+    "redirecting": "Sie werden weitergeleitet...",
+    "loginWithAzure": "Mit Azure SSO einloggen"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "upload": "Upload",
+    "logout": "Logout"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Willkommen im Teilnehmer-Portal!"
+  },
+  "upload": {
+    "title": "Abwesenheitsmeldung",
+    "infoTitle": "Wichtiger Hinweis:",
+    "infoBody": "Laden Sie zuerst Ihr Bestätigungsdokument hoch. Das System extrahiert automatisch die relevanten Daten und füllt die Felder für Sie aus.",
+    "invalidFileType": "Nur JPG-, PNG- und PDF-Dateien sind erlaubt.",
+    "uploadStatusMessage": "Ihr Dokument wird ausgelesen.",
+    "uploadFailed": "Upload fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "dropZoneLabel": "Datei-Ablagezone",
+    "fileUpload": "Dokument hier hochladen",
+    "documentTypeHint": "Ärztliche Bestätigung, Entschuldigung oder anderer Nachweis",
+    "fileTypeSizeHint": "Unterstützte Formate: PDF, JPG, PNG • Maximale Größe: 10 MB",
+    "fileSizeError": "Dokument muss kleiner als {{size}} MB sein.",
+    "remove": "Entfernen"
+  },
+  "uploadReview": {
+    "title": "Abwesenheitsdetails",
+    "instructions": "Ihr Dokument ist verarbeitet. Bitte überprüfen Sie die Daten vor dem Absenden.",
+    "confirmationFailed": "Bestätigung fehlgeschlagen. Bitte versuchen Sie es erneut."
+  },
+  "uploadConfirmation": {
+    "uploadSuccessTitle": "Formular erfolgreich übermittelt",
+    "uploadSuccessDescription": "Ihre Abwesenheitsmeldung wurde gespeichert und weitergeleitet.",
+    "uploadSuccessBadge": "ÜBERMITTELT",
+    "uploadSuccessButton": "Zurück zur Startseite"
+  },
+  "uploadProgress": {
+    "step1": "Dokument hochladen",
+    "step2": "Details eingeben",
+    "step3": "Absenden"
+  }
+}

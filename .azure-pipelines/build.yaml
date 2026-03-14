@@ -1,0 +1,21 @@
+variables:
+  - name: NPM_CONFIG_CACHE
+    value: $(Pipeline.Workspace)/.npm
+
+name: TN-Portal-Build-$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-24.04'
+
+steps:
+  - template: templates/install-nodejs.yaml
+
+  - template: templates/npm-install-with-cache.yaml
+    parameters:
+      NPM_CONFIG_CACHE: $(NPM_CONFIG_CACHE)
+
+  - template: templates/test-tn-portal.yaml
+
+  - template: templates/build-tn-portal.yaml
